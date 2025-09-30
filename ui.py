@@ -61,7 +61,7 @@ def retrieve_relevant_pairs(query, index, pairs, k=3):
 # RESPONSE GENERATION
 # ========================
 
-def generate_response(query, retrieved_pairs):
+def generate_response(user_text, log_text, retrieved_pairs):
     examples = ""
     for p in retrieved_pairs:
         examples += f"Log:\n{p['log']}\nAnalysis:\n{p['analysis']}\n\n"
@@ -71,17 +71,42 @@ def generate_response(query, retrieved_pairs):
         "Sempre responda de forma clara, direta e em português brasileiro. "
         "Evite explicações internas ou raciocínios 'para dentro'."
     )
-    user_prompt = f"""
-    Aqui estão exemplos de logs e suas análises:
 
-    {examples}
+    # Monta o prompt do usuário de acordo com o que foi enviado
+    if user_text and log_text:
+        user_prompt = f"""
+        O usuário enviou a seguinte mensagem: 
+        "{user_text}"
 
-    Agora, responda à seguinte pergunta ou analise o seguinte log do usuário:
+        Ele também anexou este log para análise:
+        {log_text}
 
-    {query}
+        Exemplos de logs e análises para contexto:
+        {examples}
 
-    Responda de forma objetiva, clara e concisa, usando português brasileiro.
-    """
+        Agora, faça a análise combinando a mensagem e o log do usuário.
+        """
+    elif log_text:
+        user_prompt = f"""
+        O usuário não escreveu uma mensagem, mas enviou o seguinte log:
+
+        {log_text}
+
+        Exemplos de logs e análises para contexto:
+        {examples}
+
+        Agora, faça a análise desse log.
+        """
+    else:
+        user_prompt = f"""
+        O usuário enviou a seguinte pergunta/mensagem: 
+        "{user_text}"
+
+        Exemplos de logs e análises para contexto:
+        {examples}
+
+        Agora, responda à mensagem do usuário de forma objetiva.
+        """
 
     messages = [
         SystemMessage(content=system_prompt),
@@ -94,53 +119,72 @@ def generate_response(query, retrieved_pairs):
 # STREAMLIT UI
 # ========================
 
-st.set_page_config(page_title="Assistente de Logs SIP", page_icon="📞", layout="centered")
+st.set_page_config(page_title="Assistente de Logs SIP", page_icon="📞", layout="wide")
+
 st.title("Assistente de Logs SIP")
-st.write("Você pode digitar perguntas ou enviar logs para análise.")
+st.write("Você pode digitar perguntas e/ou enviar logs para análise.")
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [
         {"role": "assistant", "content": "Olá! Sou o assistente de logs SIP. Pergunte algo ou envie logs para análise."}
     ]
 
-if "uploaded_file_processed" not in st.session_state:
-    st.session_state["uploaded_file_processed"] = False
-
 # Indexa logs existentes
 pairs = ingest_folder("database")
 index, stored_pairs = index_pairs(pairs)
 
-# Mostra histórico
+# ========================
+# Histórico do chat
+# ========================
 for msg in st.session_state["messages"]:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# Função de envio de mensagem
-def process_input(text):
-    st.session_state["messages"].append({"role": "user", "content": text})
-    with st.chat_message("user"):
-        st.markdown(text)
+# ========================
+# Uploader de log (anexa mas não envia sozinho)
+# ========================
+uploaded_file = st.file_uploader("📎 Anexar log (.txt)", type="txt")
 
-    retrieved = retrieve_relevant_pairs(text, index, stored_pairs)
-    response = generate_response(text, retrieved)
+if "pending_log" not in st.session_state:
+    st.session_state["pending_log"] = None
+
+if uploaded_file is not None:
+    st.session_state["pending_log"] = uploaded_file.read().decode("utf-8").strip()
+    st.success("📎 Log anexado! Ele será enviado junto com a próxima mensagem.")
+
+# ========================
+# Função de envio de mensagem
+# ========================
+def process_input(user_text, log_text=None):
+    # Exibe a mensagem no histórico
+    msg_display = user_text if user_text else ""
+    if log_text:
+        msg_display += f"\n\n📎 Arquivo enviado:\n{log_text[:500]}..."  # mostra só um trecho
+
+    st.session_state["messages"].append({"role": "user", "content": msg_display})
+    with st.chat_message("user"):
+        st.markdown(msg_display)
+
+    # Prepara entrada pro modelo
+    query_for_model = user_text if user_text else ""
+    if log_text:
+        query_for_model += "\n\n(Log completo anexado)"
+
+    retrieved = retrieve_relevant_pairs(query_for_model, index, stored_pairs)
+    response = generate_response(user_text, log_text, retrieved)
 
     st.session_state["messages"].append({"role": "assistant", "content": response})
     with st.chat_message("assistant"):
         st.markdown(response)
 
-# ----------------------
-# Ordem garantida: chat_input → botão de upload
-# ----------------------
+# ========================
+# Caixa de input fixo (chat_input nativo do Streamlit)
+# ========================
+user_text = st.chat_input("Digite sua pergunta ou comentário...")
 
-user_input = st.chat_input("Digite uma pergunta ou cole novos logs...")
+if user_text:
+    log_text = st.session_state["pending_log"]
+    process_input(user_text, log_text)
 
-
-
-if user_input:
-    process_input(user_input)
-st.title("teste")
-uploaded_file = st.file_uploader("Ou envie um log .txt para análise", type="txt", key="upload_botao")
-if uploaded_file is not None and not st.session_state["uploaded_file_processed"]:
-    log_text = uploaded_file.read().decode("utf-8").strip()
-    process_input(log_text)
-    st.session_state["uploaded_file_processed"] = True
+    # Limpa o log pendente (não reenvia em todas as mensagens)
+    st.session_state["pending_log"] = None
