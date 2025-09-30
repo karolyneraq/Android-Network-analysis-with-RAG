@@ -1,0 +1,7 @@
+O UE (telefone) envia um INVITE para iniciar a sessão SIP com o destino 7777. [-->] indica que a mensagem foi enviada pelo dispositivo.
+SIP/2.0 401 Unauthorized -> Mensagem recebida do servidor IMS. Indica que o INVITE precisou de autenticação (challenge). [<--] significa recebida pelo UE.
+O UE envia ACK confirmando que recebeu o 401 Unauthorized. É apenas uma transação de controle, sem áudio estabelecido.
+Novo INVITE enviado pelo UE após a primeira tentativa, iniciando uma nova transação SIP (CSeq incrementado).
+[<--] SIP/2.0 100 Trying -> Resposta provisória do servidor IMS indicando que o INVITE foi recebido e está sendo processado. Não há ação do usuário neste momento.
+[<--] SIP/2.0 603 Declined -> Servidor IMS recusa a chamada. A sessão SIP não será estabelecida.
+[-->] ACK sip:7777@172.25.225.19 SIP/2.0 -> UE envia ACK confirmando que recebeu o 603 Declined. A tentativa de chamada termina sem conexão de áudio.

@@ -1,0 +1,22 @@
+#IMSCALL: 5 - START OUTGOING -->Indica que o IMS (IP Multimedia Subsystem) iniciou uma chamada de saída, Marca o start da sessão SIP.
+[-->] indica mensagem enviada pelo telefone (UE, User Equipment).
+\INVITE é a requisição SIP que inicia a sessão de voz com o destino.
+CSeq: 1 INVITE → primeira transação SIP (CSeq sempre aumenta para cada tipo de método).
+Esse é o momento em que o telefone “tenta ligar” para o destino.
+[<--] indica mensagem recebida do servidor IMS do operador.
+100 Trying é informativo: o servidor recebeu o INVITE e está processando.
+Não há ação do usuário neste momento, apenas confirma que o pedido foi recebido.
+183 Session Progress indica que a chamada está tocando no destino (ringing ou progress) e pode incluir SDP para negociação de áudio antes do 200 OK.
+Permite que o UE comece a preparar o áudio (early media).
+PRACK (Provisional ACK) é usado para confirmar recebimento de respostas provisórias como o 183 Session Progress.
+200 OK confirma que o PRACK foi aceito.
+Isso é padrão no SIP confiável (reliable provisional responses).
+Mais um 183 (early media).
+Finalmente, 200 OK do INVITE indica que o destinatário atendeu a chamada e a sessão de áudio pode ser estabelecida
+ACK confirma recebimento do 200 OK do INVITE.
+Agora a chamada está efetivamente conectada.
+A chamada foi estabelecida com sucesso.
+Call Setup Time = 18.629 → demorou 18,6s desde o INVITE até a conexão.
+BYE é o método SIP que encerra a sessão.
+200 OK confirma que a outra ponta recebeu o BYE.
+#IMSCALL: END indica que a chamada terminou com sucesso, motivo SIP 200 OK.

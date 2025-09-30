@@ -1,0 +1,7 @@
+[-->] INVITE sip:798xxxxxxxxxxxxxx049;phone-context=ims.tim.br@ims.tim.br;user=phone SIP/2.0 [CSeq: 1 INVITE] -> O UE envia INVITE para iniciar uma chamada para o número 798xxxxxxxxxxxxxx049. [-->] indica mensagem enviada pelo telefone.
+[<--] SIP/2.0 100 Trying [CSeq: 1 INVITE] -> Servidor IMS responde 100 Trying, informando que recebeu o INVITE e está processando. Resposta provisória, sem ação do usuário.
+[<--] SIP/2.0 404 Not Found [CSeq: 1 INVITE] -> Servidor IMS responde 404 Not Found, indicando que o destino não existe ou não está registrado na rede. A chamada não pode ser estabelecida.
+[-->] REGISTER sip:ims.mnc002.mcc724.3gppnetwork.org SIP/2.0 [CSeq: 3 REGISTER] -> UE envia REGISTER para registrar-se na rede IMS (provavelmente para corrigir problemas de roteamento ou atualizar presença).
+[<--] NOTIFY sip:724xxxxxxxxx477@[2804:0214:9307:0E39:1869:DE6E:E12C:003C]:5060 SIP/2.0 [CSeq: 2 NOTIFY] -> Servidor envia NOTIFY informando alterações de status ou presença para o UE.
+[-->] SIP/2.0 200 OK [CSeq: 2 NOTIFY] -> UE confirma recebimento do NOTIFY com 200 OK.
+[<--] SIP/2.0 200 OK [CSeq: 3 REGISTER] -> Servidor confirma que o registro IMS do UE foi realizado com sucesso.

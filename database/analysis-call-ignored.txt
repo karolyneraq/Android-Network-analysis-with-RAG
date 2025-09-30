@@ -1,0 +1,5 @@
+[<--] INVITE ... -> O UE recebeu uma chamada.
+[-->] 180 Ringing -> O telefone começou a tocar, informando que o destino está sendo alertado.
+[-->] 486 Busy Here -> O UE envia Busy Here, indicando que não pode atender (usuário ocupado).
+[<--] CANCEL ... -> O servidor tenta cancelar a chamada, mas a UE já havia respondido com 486.
+[-->] 481 Call/Transaction Does Not Exist -> UE confirma que a transação já não existe, ou seja, a chamada já foi encerrada.

@@ -1,0 +1,8 @@
+[<--] MESSAGE sip:724xxxxxxxxx477@[2804:0214:930C:7033:1869:CD61:10A3:044C]:5060 SIP/2.0 [CSeq: 1 MESSAGE] -> O UE recebe uma mensagem SIP MESSAGE de outro usuário. [<--] indica recebida pelo telefone.
+[-->] SIP/2.0 200 OK [CSeq: 1 MESSAGE] -> UE responde 200 OK, confirmando o recebimento da mensagem.
+[-->] MESSAGE sip:ip-sm-gw@fla3-ats-01.ims.tim.br SIP/2.0 [CSeq: 1 MESSAGE] -> UE envia uma mensagem SIP MESSAGE para o gateway IMS (provavelmente para enviar um SMS ou notificação). [-->] indica mensagem enviada pelo telefone.
+[<--] SIP/2.0 200 OK [CSeq: 1 MESSAGE] -> Servidor ou gateway IMS confirma que recebeu a mensagem do UE.
+[-->] REGISTER sip:ims.mnc002.mcc724.3gppnetwork.org SIP/2.0 [CSeq: 5 REGISTER] -> UE envia REGISTER para atualizar seu registro IMS na rede.
+[<--] NOTIFY sip:724xxxxxxxxx477@[2804:0214:930C:7033:1869:CD61:10A3:044C]:5060 SIP/2.0 [CSeq: 4 NOTIFY] -> Servidor envia NOTIFY informando mudanças de status/presença para o UE.
+[-->] SIP/2.0 200 OK [CSeq: 4 NOTIFY] -> UE confirma recebimento do NOTIFY com 200 OK.
+[<--] SIP/2.0 200 OK [CSeq: 5 REGISTER] -> Servidor confirma que o REGISTER do UE foi processado com sucesso.
