@@ -1,0 +1,7 @@
+[-->] INVITE sip:1000@172.25.225.19 SIP/2.0 [CSeq: 10458 INVITE]  -> O UE (MicroSIP) envia um INVITE para iniciar uma chamada ao usuário 1000 no servidor Asterisk. `[-->]` indica que a mensagem foi enviada pelo telefone.  
+[<--] SIP/2.0 401 Unauthorized [CSeq: 10458 INVITE]  -> O servidor responde com **401 Unauthorized**, pedindo que o cliente reenvie a requisição com autenticação (desafio Digest). `[<--]` indica que a mensagem foi recebida pelo telefone.  
+[-->] ACK sip:1000@172.25.225.19 SIP/2.0 -> O UE envia um ACK confirmando o recebimento do 401.
+[-->] INVITE sip:1000@172.25.225.19 SIP/2.0 [CSeq: 10458 INVITE] -> O UE reenvia o INVITE, agora com as credenciais de autenticação corretas.
+[<--] SIP/2.0 100 Trying [CSeq: 10458 INVITE] -> O servidor confirma que recebeu o INVITE autenticado e está processando a chamada.
+[<--] SIP/2.0 480 Temporarily unavailable [CSeq: 10458 INVITE] -> O servidor não conseguiu localizar o usuário de destino (1000 está indisponível / não registrado). Equivale a “sem cobertura” ou “usuário fora da rede” no mundo SIP.  
+[-->] ACK sip:1000@172.25.225.19 SIP/2.0 -> O UE envia um ACK final, confirmando que recebeu a resposta 480 do servidor e encerrando o diálogo SIP.  

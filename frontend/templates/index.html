@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistente de Logs SIP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="title">📞 Assistente de Logs SIP</div>
+            <!-- Caixa de mensagens -->
+            <div class="box" id="chat-box">
+                <!-- Mensagens injetadas via Flask + HTMX -->
+            </div>
+        <!-- Área de entrada -->
+        <div class="typing-area">
+            <form class="input-field" hx-post="/upload" hx-target="#chat-box" hx-swap="beforeend" enctype="multipart/form-data">
+                <input type="text" name="user_input" placeholder="Digite sua pergunta..." required>
+                <input type="file" name="file" accept=".txt">
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

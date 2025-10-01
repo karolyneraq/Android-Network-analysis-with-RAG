@@ -1,0 +1,4 @@
+[<--] INVITE sip:1234@172.25.225.19 SIP/2.0 -> O UE recebeu uma solicitação de chamada (INVITE).  
+[-->] SIP/2.0 100 Trying -> O UE respondeu com “Trying”, indicando que a solicitação foi recebida e está sendo processada.  
+[-->] SIP/2.0 503 Service Unavailable -> O UE informa que não pode completar a chamada, serviço indisponível, talvez por problemas com o sim card.  
+[<--] ACK sip:1234@172.25.225.19 SIP/2.0 -> O UE recebeu o ACK, confirmando que a transação foi finalizada.  
