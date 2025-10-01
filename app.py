@@ -184,5 +184,48 @@ def upload():
     <div class="assistant"><b>Assistente:</b> {response_html}</div>
     """
 
+from sklearn.metrics.pairwise import cosine_similarity
+
+def evaluate_response(user_text, log_text, expected_response):
+    # Recupera os documentos relevantes (RAG)
+    retrieved = retrieve_relevant_pairs(user_text, faiss_index, pairs)
+    
+    # Gera a resposta do modelo
+    generated = generate_response(user_text, log_text, retrieved)
+    
+    # Calcula embeddings das respostas
+    emb_expected = embedder.encode([expected_response], convert_to_numpy=True, normalize_embeddings=True)
+    emb_generated = embedder.encode([generated], convert_to_numpy=True, normalize_embeddings=True)
+    
+    # Calcula similaridade de cosseno
+    similarity = cosine_similarity(emb_expected, emb_generated)[0][0]
+    print("=================================================================\n\n\n\n")
+    print("=====   Usuário:", user_text, "  =====")
+    print("=====   Esperado:   =====\n", expected_response)
+    print("=====   Gerado:   =====\n", generated)
+    print(f"=====  Similaridade de cosseno: {similarity:.3f}  =====\n")
+    
+    return similarity
+
+# Exemplo de uso:
+test_user_text = "Analise o log de chamada SIP anexado."
+test_log_text = f"""
+09-29 13:28:55.220  4258  4704 I SIPMSG[0,2]: [<--] INVITE sip:724xxxxxxxxx477@[2804:0214:930C:7033:1869:CD61:10A3:044C]:5060 SIP/2.0 [CSeq: 975900 INVITE]
+09-29 13:28:55.339  4258  4704 I SIPMSG[0,2]: [-->] SIP/2.0 180 Ringing [CSeq: 975900 INVITE]
+09-29 13:29:25.645  4258  4704 I SIPMSG[0,2]: [-->] SIP/2.0 486 Busy Here [CSeq: 975900 INVITE]
+09-29 13:29:25.699  4258  4704 I SIPMSG[0,2]: [<--] CANCEL sip:724xxxxxxxxx477@[2804:0214:930C:7033:1869:CD61:10A3:044C]:5060 SIP/2.0 [CSeq: 975900 CANCEL]
+09-29 13:29:25.701  4258  4704 I SIPMSG[0,0]: [-->] SIP/2.0 481 Call/Transaction Does Not Exist [CSeq: 975900 CANCEL]
+"""
+expected_response = f"""
+[<--] INVITE ... -> O UE recebeu uma chamada.
+[-->] 180 Ringing -> O telefone começou a tocar, informando que o destino está sendo alertado.
+[-->] 486 Busy Here -> O UE envia Busy Here, indicando que não pode atender (usuário ocupado).
+[<--] CANCEL ... -> O servidor tenta cancelar a chamada, mas a UE já havia respondido com 486.
+[-->] 481 Call/Transaction Does Not Exist -> UE confirma que a transação já não existe, ou seja, a chamada já foi encerrada.
+"""
+
+evaluate_response(test_user_text, test_log_text, expected_response)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
