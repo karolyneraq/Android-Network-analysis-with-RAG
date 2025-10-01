@@ -11,12 +11,10 @@
 <body>
     <div class="wrapper">
         <div class="title">📞 Assistente de Logs SIP</div>
-
-        <!-- Caixa de mensagens -->
-        <div class="box" id="chat-box">
-            <!-- Mensagens injetadas via Flask + HTMX -->
-        </div>
-
+            <!-- Caixa de mensagens -->
+            <div class="box" id="chat-box">
+                <!-- Mensagens injetadas via Flask + HTMX -->
+            </div>
         <!-- Área de entrada -->
         <div class="typing-area">
             <form class="input-field" hx-post="/upload" hx-target="#chat-box" hx-swap="beforeend" enctype="multipart/form-data">

@@ -43,12 +43,12 @@ body {
     background: #1f1f1f; /* Fundo mais escuro */
 }
 
-.wrapper .box .item {
-    display: flex;
-    margin: 180px 0;
+.wrapper .box .assistant {
+    float: left;
+    margin: 50px 0;
 }
 
-.wrapper .box .item.assistant .icon {
+.wrapper .box .assistant .icon {
     background: #007bff;
     color: white;
     width: 35px;
@@ -57,24 +57,10 @@ body {
     line-height: 35px;
     border-radius: 50%;
     font-size: 14px;
+    
 }
 
-.assistant {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.assistant p, ol, h1, h2, h3, ul{
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.assistant hr{
-    margin-top: 12px;
-    margin-bottom: 12px;
-}
-
-.wrapper .box .item.assistant .msg {
+.wrapper .box .assistant  {
     background: #333; /* Escuro para a mensagem do assistente */
     color: white;
     border-radius: 10px;
@@ -83,17 +69,30 @@ body {
     margin-left: 10px;
 }
 
-.wrapper .box .item.user {
+.assistant p, ul, ol, h1, h2, h3{
+    margin: 0 25px 0 20px;
+}
+
+.assistant hr{
+    margin: 15px 0 15px 0;
+}
+
+.assistant p code{
+    word-wrap: break-word;
+}
+
+.wrapper .box .user {
+    margin: 10px 0;
+    float: right;
     justify-content: flex-end;
 }
 
-.wrapper .box .item.user .msg {
+.wrapper .box .user {
     background: #444; /* Um cinza mais escuro para as mensagens do usuário */
     color: #ddd; /* Texto mais suave */
     border-radius: 10px;
     padding: 10px;
     max-width: 70%;
-    padding-top: 30px;
 }
 
 .wrapper .typing-area {
