@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #121212; /* Escuro para fundo */
+    color: #e0e0e0; /* Texto claro */
+}
+
+.wrapper {
+    width: 60vw; /* 50% da largura da tela */
+    max-width: 600px; /* Limita a largura máxima a 600px para não ficar muito grande */
+    height: 80vh; /* 70% da altura da tela */
+    background: #1e1e1e;
+    border-radius: 5px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+.wrapper .title {
+    background: #333; /* Mais escuro para o título */
+    color: #ffffff;
+    line-height: 2.5;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.wrapper .box {
+    border: 1px solid #444; /* Borda mais suave */
+    padding: 20px 25px;
+    height: 60vh;
+    overflow-y: auto;
+    background: #1f1f1f; /* Fundo mais escuro */
+}
+
+.wrapper .box .item {
+    display: flex;
+    margin: 180px 0;
+}
+
+.wrapper .box .item.assistant .icon {
+    background: #007bff;
+    color: white;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    border-radius: 50%;
+    font-size: 14px;
+}
+
+.assistant {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.assistant p, ol, h1, h2, h3, ul{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.assistant hr{
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.wrapper .box .item.assistant .msg {
+    background: #333; /* Escuro para a mensagem do assistente */
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    max-width: 70%;
+    margin-left: 10px;
+}
+
+.wrapper .box .item.user {
+    justify-content: flex-end;
+}
+
+.wrapper .box .item.user .msg {
+    background: #444; /* Um cinza mais escuro para as mensagens do usuário */
+    color: #ddd; /* Texto mais suave */
+    border-radius: 10px;
+    padding: 10px;
+    max-width: 70%;
+    padding-top: 30px;
+}
+
+.wrapper .typing-area {
+    width: 100%;
+    background: #333; /* Fundo mais escuro */
+    display: flex;
+    padding: 10px;
+}
+
+.wrapper .typing-area .input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+}
+
+.wrapper .typing-area input[type="text"],
+.wrapper .typing-area input[type="file"] {
+    padding: 8px;
+    border: 1px solid #555; /* Borda mais suave */
+    border-radius: 3px;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+    background: #333; /* Fundo escuro no campo de input */
+    color: #e0e0e0; /* Texto claro nos inputs */
+}
+
+.wrapper .typing-area input[type="text"]:focus {
+    border-color: #007bff;
+}
+
+.wrapper .typing-area button {
+    background: #007bff;
+    border: none;
+    padding: 8px;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.wrapper .typing-area button:hover {
+    background: #0056b3;
+}
